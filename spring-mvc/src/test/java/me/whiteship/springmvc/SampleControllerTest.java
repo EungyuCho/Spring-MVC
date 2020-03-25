@@ -22,10 +22,17 @@ public class SampleControllerTest   {
     @Autowired
     MockMvc mockMvc;
 
+    @Autowired
+    PersonRepository personRepository;
+
     @Test
     public void hello() throws Exception {
+        Person person = new Person();
+        person.setName("eungyu");
+        Person savedPerson = personRepository.save(person);
+        System.out.println("펄슨객체는 " + savedPerson.getId().toString());
         this.mockMvc.perform(get("/hello")
-                    .param("name", "eungyu"))
+                    .param("id", savedPerson.getId().toString()))
                 .andDo(print())
                 .andExpect(content().string("hello eungyu"));
     }
