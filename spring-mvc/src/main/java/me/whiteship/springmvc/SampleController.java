@@ -1,30 +1,23 @@
 package me.whiteship.springmvc;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UrlPathHelper;
 
-@RestController
+@Controller
+@RequestMapping(value = "/hello", method = RequestMethod.GET)
 public class SampleController {
 
-    //preHandle :
-    //요청 처리
-    //postHandle
-    //뷰 렌더링
-    //afterCompletion
-
-    @GetMapping("/hello")
-    public String hello(@RequestParam("id") Person person){
-//    public String hello(@PathVariable("name") Person person){
-        return "hello "+ person.getName();
+    @RequestMapping("/{name:[a-z]+}")
+    @ResponseBody
+    public String hello(@PathVariable String name){
+        return "hello " + name;
     }
 
-    @GetMapping("/message")
-    public String message(@RequestBody String body){
-        return body;
-    }
-
-    @GetMapping("jsonMessage")
-    public Person jsonMessage(@RequestBody Person person){
-        return person;
+    @RequestMapping(value = "/consumes1", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public String json(){
+        return "json";
     }
 }
